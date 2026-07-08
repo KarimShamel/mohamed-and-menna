@@ -118,6 +118,12 @@
             text-align: center;
             border: 1px solid rgba(212, 175, 55, 0.15);
             margin-bottom: 40px;
+            overflow: hidden; /* Ensures full photo matches card corners */
+        }
+
+        /* Special variant for the full photo card to handle padding cleanly */
+        .photo-card {
+            padding: 0 0 35px 0; 
         }
 
         /* --- Quran Verse Style --- */
@@ -131,37 +137,20 @@
             padding: 10px;
         }
 
-        /* --- Enlarged Photo Frame --- */
-        .photo-frame-container {
-            position: relative;
+        /* --- Full Photo Container --- */
+        .full-photo-container {
             width: 100%;
-            max-width: 420px; /* Increased frame footprint */
-            margin: 0 auto 30px;
+            height: 500px; /* Tall, majestic portrait orientation */
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-bottom: 3px solid var(--primary-color);
         }
 
-        .couple-photo {
+        .couple-photo-full {
             width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 15px; /* Subtle soft corners instead of fully round for larger frame */
-            object-fit: cover;
-            border: 6px solid #fff;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Ornamental border accent behind the picture */
-        .photo-frame-container::after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: -15px;
-            bottom: -15px;
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            z-index: 1;
-            pointer-events: none;
+            height: 100%;
+            object-fit: cover; /* Keeps aspect ratio clean while filling container */
+            object-position: center 20%; /* Prioritizes upper-middle framing for faces */
         }
 
         .main-title {
@@ -241,7 +230,6 @@
             height: 20px;
         }
 
-        /* Scroll indicator for continuous feel */
         .scroll-prompt {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -285,11 +273,11 @@
             <p class="scroll-prompt">Scroll Down</p>
         </div>
 
-        <!-- Section 2: Couple Portrait Frame -->
-        <div class="invitation-section">
-            <div class="photo-frame-container">
-                <!-- Enlarged image block. Falls back to Unsplash photo if couple.jpg is missing -->
-                <img src="couple.jpg" alt="Mohamed & Menna" class="couple-photo" onerror="this.src='https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=800&auto=format&fit=crop'">
+        <!-- Section 2: Full-bleed Portrait Section -->
+        <div class="invitation-section photo-card">
+            <div class="full-photo-container">
+                <!-- Image fills the block side-to-side. Falls back to premium placeholder if couple.jpg is missing -->
+                <img src="couple.jpg" alt="Mohamed & Menna" class="couple-photo-full" onerror="this.src='https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=800&auto=format&fit=crop'">
             </div>
             <h2 class="main-title">Mohamed & Menna</h2>
             <p class="tagline">Save Our Date</p>
@@ -330,16 +318,16 @@
 
     <script>
         function openInvitation() {
-            // Unhide structure
+            // Unhide layout structure
             document.body.classList.add('loaded');
             
-            // Slide & fade out the cover screen
+            // Slide/fade away the cover screen
             document.getElementById('cover-screen').classList.add('hidden');
             
-            // Play the audio track "mo-song"
+            // Play background audio
             const music = document.getElementById('bg-music');
             music.play().catch(error => {
-                console.log("Audio play caught/prevented by browser behavior guidelines:", error);
+                console.log("Audio autoplay checked by browser policy restriction:", error);
             });
         }
     </script>
